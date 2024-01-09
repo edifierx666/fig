@@ -1,4 +1,4 @@
-module github.com/edx6666/fig
+module github.com/edifierx666/fig
 
 go 1.21
 

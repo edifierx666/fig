@@ -3,7 +3,7 @@ package fig
 import (
   "testing"
 
-  "github.com/edx6666/fig/contrib/fviper"
+  "github.com/edifierx666/fig/contrib/fviper"
   "github.com/gookit/goutil/dump"
 )
 
