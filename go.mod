@@ -7,10 +7,13 @@ require (
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/glebarez/sqlite v1.10.0
 	github.com/go-sql-driver/mysql v1.7.1
+	github.com/gofiber/storage/memory/v2 v2.0.0
 	github.com/gookit/goutil v0.6.15
 	github.com/joomcode/errorx v1.1.1
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
+	github.com/pkg/errors v0.9.1
 	github.com/spf13/viper v1.18.2
+	go.uber.org/zap v1.21.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 	gorm.io/driver/mysql v1.5.2
 	gorm.io/driver/postgres v1.5.4
@@ -40,7 +43,6 @@ require (
 	github.com/microsoft/go-mssqldb v1.6.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect

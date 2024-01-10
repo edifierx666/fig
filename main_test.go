@@ -29,4 +29,5 @@ func TestA2(t *testing.T) {
 func TestA3(t *testing.T) {
   db := fgorm.NewDB()
   db.Instance.AutoMigrate(&fgorm.GeneralDB{})
+
 }
