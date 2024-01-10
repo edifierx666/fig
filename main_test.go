@@ -26,3 +26,7 @@ func TestA2(t *testing.T) {
   db := dbConfiger.GetDBByName("a1")
   db.AutoMigrate(fgorm.GeneralDB{})
 }
+func TestA3(t *testing.T) {
+  db := fgorm.NewDB()
+  db.Instance.AutoMigrate(&fgorm.GeneralDB{})
+}

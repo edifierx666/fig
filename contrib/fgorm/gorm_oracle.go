@@ -34,13 +34,13 @@ func (m *Oracle) GetLogMode() string {
 // 		DSN:               m.Dsn(), // DSN data source name
 // 		DefaultStringSize: 191,     // string 类型字段的默认长度
 // 	}
-// 	if db, err := gorm.Open(mysql.New(oracleConfig), internal.Gorm.Config(m.Prefix, m.Singular)); err != nil {
+// 	if Instance, err := gorm.Open(mysql.New(oracleConfig), internal.Gorm.Config(m.Prefix, m.Singular)); err != nil {
 // 		panic(err)
 // 	} else {
-// 		sqlDB, _ := db.DB()
+// 		sqlDB, _ := Instance.DB()
 // 		sqlDB.SetMaxIdleConns(m.MaxIdleConns)
 // 		sqlDB.SetMaxOpenConns(m.MaxOpenConns)
-// 		return db
+// 		return Instance
 // 	}
 // }
 
