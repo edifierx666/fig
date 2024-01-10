@@ -9,8 +9,6 @@ import (
   "github.com/spf13/viper"
 )
 
-import _ "github.com/spf13/viper/remote"
-
 const ConfigName = "config"
 
 type ViperConfiger struct {
