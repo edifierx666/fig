@@ -1,11 +1,10 @@
 package fgorm
 
 import (
-  "errors"
   "fmt"
   "sync"
 
-  "github.com/joomcode/errorx"
+  "github.com/pkg/errors"
   "gorm.io/gorm"
 )
 
@@ -13,10 +12,7 @@ var lock sync.RWMutex
 var SupportDBTypes = []string{"mysql", "pgsql", "oracle", "mssql", "sqlite"}
 
 func errrorwrap(err error) error {
-  return errorx.DecorateMany("DBConfiger错误:", err)
-}
-func errorStackTrace(err error, message string, args ...interface{}) *errorx.Error {
-  return errorx.EnhanceStackTrace(errrorwrap(err), message, args...)
+  return errors.WithStack(errors.Wrap(err, "DBConfiger错误:"))
 }
 
 type DBList struct {

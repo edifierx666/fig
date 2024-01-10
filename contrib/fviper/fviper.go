@@ -5,7 +5,7 @@ import (
   "os"
 
   "github.com/fsnotify/fsnotify"
-  "github.com/joomcode/errorx"
+  "github.com/pkg/errors"
   "github.com/spf13/viper"
 )
 
@@ -102,8 +102,7 @@ func (vc *ViperConfiger) GetResult() any {
 }
 
 func (vc *ViperConfiger) unmarshall() {
-  if err := vc.GetViper().Unmarshal(&vc.Result); err != nil {
-    err = errorx.EnhanceStackTrace(err, "文件配置解析错误")
+  if err := errors.WithStack(vc.GetViper().Unmarshal(&vc.Result)); err != nil {
     fmt.Println(err)
   }
 }
@@ -121,7 +120,7 @@ func New(options ...ViperOption) *ViperConfiger {
     EnvPrefix:   "",
     Result:      &result,
     ErrorHandler: func(err error) {
-      if err := errorx.EnhanceStackTrace(err, "文件配置解析错误"); err != nil {
+      if err := errors.WithStack(errors.WithMessage(err, "文件配置解析错误")); err != nil {
         fmt.Println(err)
       }
     },
