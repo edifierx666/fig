@@ -1,12 +1,23 @@
 package fgorm
 
 import (
-  "github.com/edifierx666/fig/contrib/fgorm/config"
   "github.com/edifierx666/fig/contrib/fgorm/internal"
   _ "github.com/go-sql-driver/mysql"
   "gorm.io/driver/mysql"
   "gorm.io/gorm"
 )
+
+type Mysql struct {
+  GeneralDB `yaml:",inline" mapstructure:",squash"`
+}
+
+func (m *Mysql) Dsn() string {
+  return m.Username + ":" + m.Password + "@tcp(" + m.Path + ":" + m.Port + ")/" + m.Dbname + "?" + m.Config
+}
+
+func (m *Mysql) GetLogMode() string {
+  return m.LogMode
+}
 
 // // GormMysql 初始化Mysql数据库
 // // Author [piexlmax](https://github.com/piexlmax)
@@ -35,7 +46,7 @@ import (
 // }
 
 // GormMysqlByConfig 初始化Mysql数据库用过传入配置
-func GormMysqlByConfig(m config.Mysql) *gorm.DB {
+func GormMysqlByConfig(m Mysql) *gorm.DB {
   if m.Dbname == "" {
     return nil
   }

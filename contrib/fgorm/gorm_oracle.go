@@ -1,7 +1,6 @@
 package fgorm
 
 import (
-  "github.com/edifierx666/fig/contrib/fgorm/config"
   "github.com/edifierx666/fig/contrib/fgorm/internal"
   // "github.com/dzwvip/oracle"
   // "github.com/flipped-aurora/gin-vue-admin/server/initialize/internal"
@@ -10,6 +9,19 @@ import (
   "gorm.io/driver/mysql"
   "gorm.io/gorm"
 )
+
+type Oracle struct {
+  GeneralDB `yaml:",inline" mapstructure:",squash"`
+}
+
+func (m *Oracle) Dsn() string {
+  return "oracle://" + m.Username + ":" + m.Password + "@" + m.Path + ":" + m.Port + "/" + m.Dbname + "?" + m.Config
+
+}
+
+func (m *Oracle) GetLogMode() string {
+  return m.LogMode
+}
 
 // GormOracle 初始化oracle数据库
 // // 如果需要Oracle库 放开import里的注释 把下方 mysql.Config 改为 oracle.Config ;  mysql.New 改为 oracle.New
@@ -33,7 +45,7 @@ import (
 // }
 
 // GormOracleByConfig 初始化Oracle数据库用过传入配置
-func GormOracleByConfig(m config.Oracle) *gorm.DB {
+func GormOracleByConfig(m Oracle) *gorm.DB {
   if m.Dbname == "" {
     return nil
   }

@@ -1,4 +1,4 @@
-package config
+package fgorm
 
 type DsnProvider interface {
   Dsn() string

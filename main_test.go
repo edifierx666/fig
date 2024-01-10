@@ -4,7 +4,6 @@ import (
   "testing"
 
   "github.com/edifierx666/fig/contrib/fgorm"
-  "github.com/edifierx666/fig/contrib/fgorm/config"
   "github.com/edifierx666/fig/contrib/fviper"
   "github.com/gookit/goutil/dump"
 )
@@ -25,6 +24,5 @@ func TestA2(t *testing.T) {
   }
   dbConfiger := fgorm.NewDBConfiger(fgorm.WithDBMapList(m))
   db := dbConfiger.GetDBByName("a1")
-
-  db.AutoMigrate(config.GeneralDB{})
+  db.AutoMigrate(fgorm.GeneralDB{})
 }

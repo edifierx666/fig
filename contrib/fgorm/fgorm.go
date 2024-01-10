@@ -6,7 +6,6 @@ import (
   "sync"
 
   "dario.cat/mergo"
-  "github.com/edifierx666/fig/contrib/fgorm/config"
   "github.com/joomcode/errorx"
   "gorm.io/gorm"
 )
@@ -22,7 +21,7 @@ func errorStackTrace(err error, message string, args ...interface{}) *errorx.Err
 }
 
 type DBConfiger struct {
-  DBList   []*config.SpecializedDB
+  DBList   []*SpecializedDB
   DBMap    map[string]*gorm.DB
   AutoConn bool
 }
@@ -36,8 +35,8 @@ func (dbc *DBConfiger) checkkey(aliasname string) bool {
   return false
 }
 
-func (dbc *DBConfiger) Dbmap(m map[string]any) (dbs *config.SpecializedDB) {
-  dbs = &config.SpecializedDB{}
+func (dbc *DBConfiger) Dbmap(m map[string]any) (dbs *SpecializedDB) {
+  dbs = &SpecializedDB{}
   err := errrorwrap(
     mergo.Map(
       dbs, m, mergo.WithOverride, mergo.WithOverrideEmptySlice,
@@ -67,7 +66,7 @@ func (dbc *DBConfiger) MustGetDBByName(aliasname string) (db *gorm.DB) {
   return db
 }
 
-func (dbc *DBConfiger) AddDB(dbs *config.SpecializedDB) *DBConfiger {
+func (dbc *DBConfiger) AddDB(dbs *SpecializedDB) *DBConfiger {
   dbc.DBList = append(dbc.DBList, dbs)
   dbc.autoConn()
   return dbc
@@ -99,7 +98,7 @@ func (dbc *DBConfiger) Conn() {
 
     switch db.Type {
     case "mysql":
-      m := config.Mysql{GeneralDB: db.GeneralDB}
+      m := Mysql{GeneralDB: db.GeneralDB}
       dbc.DBMap[db.AliasName] = GormMysqlByConfig(m)
     // case "pgsql":
     //   m := config.Pgsql{GeneralDB:db.GeneralDB}
@@ -109,7 +108,7 @@ func (dbc *DBConfiger) Conn() {
     // case "mssql":
     //   return GormMssql()
     case "sqlite":
-      m := config.Sqlite{GeneralDB: db.GeneralDB}
+      m := Sqlite{GeneralDB: db.GeneralDB}
       dbc.DBMap[db.AliasName] = GormSqliteByConfig(m)
     }
   }
@@ -117,7 +116,7 @@ func (dbc *DBConfiger) Conn() {
 
 func NewDBConfiger(options ...Option) (dbConfiger *DBConfiger) {
   dbc := &DBConfiger{
-    DBList:   make([]*config.SpecializedDB, 0),
+    DBList:   make([]*SpecializedDB, 0),
     DBMap:    make(map[string]*gorm.DB),
     AutoConn: true,
   }
@@ -131,7 +130,7 @@ func NewDBConfiger(options ...Option) (dbConfiger *DBConfiger) {
   return dbc
 }
 
-func WithDBList(list []*config.SpecializedDB) Option {
+func WithDBList(list []*SpecializedDB) Option {
   return func(dbc *DBConfiger) {
     for _, db := range list {
       isSupported := false
