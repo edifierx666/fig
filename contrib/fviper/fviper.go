@@ -21,6 +21,7 @@ type ViperConfiger struct {
   EnvPrefix    string
   Result       any
   ErrorHandler func(err error)
+  ReadEnv      bool
   v            *viper.Viper
   maunalRead   bool
   pure         bool
@@ -72,6 +73,13 @@ func WithMaunalRead(maunalRead bool) ViperOption {
 func WithPureViper(pure bool) ViperOption {
   return func(configer *ViperConfiger) {
     configer.pure = pure
+  }
+}
+
+// WithReadEnv 读取环境变量
+func WithReadEnv(read bool) ViperOption {
+  return func(configer *ViperConfiger) {
+    configer.ReadEnv = read
   }
 }
 
@@ -132,7 +140,9 @@ func New(options ...ViperOption) *ViperConfiger {
   for _, path := range vc.ConfigPaths {
     v.AddConfigPath(path)
   }
-
+  if vc.ReadEnv {
+    v.AutomaticEnv()
+  }
   if vc.ConfigType != "" {
     v.SetConfigType(vc.ConfigType)
   }
