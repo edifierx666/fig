@@ -4,7 +4,7 @@ import (
   "fmt"
   "sync"
 
-  "github.com/pkg/errors"
+  "github.com/edifierx666/fig/errors/ferror"
   "gorm.io/gorm"
 )
 
@@ -12,7 +12,7 @@ var lock sync.RWMutex
 var SupportDBTypes = []string{"mysql", "pgsql", "oracle", "mssql", "sqlite"}
 
 func errrorwrap(err error) error {
-  return errors.WithStack(errors.Wrap(err, "DBConfiger错误:"))
+  return ferror.Wrap(err, "DBConfiger错误:")
 }
 
 type DBList struct {
@@ -118,7 +118,9 @@ func WithDBList(list []*DB) DBListOption {
         }
       }
       if !isSupported {
-        fmt.Println(errrorwrap(errors.New("不支持的数据库类型:" + db.Inner.Type)))
+        err := errrorwrap(ferror.New("不支持的数据库类型:" + db.Inner.Type))
+        fmt.Printf("%+v", err)
+        fmt.Println()
         db.Inner.Type = "mysql"
       }
     }
@@ -142,7 +144,9 @@ func WithDBMapList(list []map[string]any) DBListOption {
         }
       }
       if !isSupported {
-        fmt.Println(errrorwrap(errors.New("不支持的数据库类型:" + db.Inner.Type)))
+        err := errrorwrap(ferror.New("不支持的数据库类型:" + db.Inner.Type))
+        fmt.Printf("%+v", err)
+        fmt.Println()
         db.Inner.Type = "mysql"
       }
     }

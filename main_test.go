@@ -1,10 +1,12 @@
 package fig
 
 import (
+  "fmt"
   "testing"
 
   "github.com/edifierx666/fig/contrib/fgorm"
   "github.com/edifierx666/fig/contrib/fviper"
+  "github.com/edifierx666/fig/errors/ferror"
   "github.com/gookit/goutil/dump"
 )
 
@@ -30,4 +32,10 @@ func TestA3(t *testing.T) {
   db := fgorm.NewDB()
   db.Instance.AutoMigrate(&fgorm.GeneralDB{})
 
+}
+func TestA4(t *testing.T) {
+  err := ferror.New("错误")
+  fmt.Printf("err: %+v", err)
+  fmt.Println("--------------------")
+  fmt.Println(err)
 }

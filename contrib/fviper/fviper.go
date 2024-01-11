@@ -4,8 +4,8 @@ import (
   "fmt"
   "os"
 
+  "github.com/edifierx666/fig/errors/ferror"
   "github.com/fsnotify/fsnotify"
-  "github.com/pkg/errors"
   "github.com/spf13/viper"
 )
 
@@ -102,8 +102,9 @@ func (vc *ViperConfiger) GetResult() any {
 }
 
 func (vc *ViperConfiger) unmarshall() {
-  if err := errors.WithStack(vc.GetViper().Unmarshal(&vc.Result)); err != nil {
-    fmt.Println(err)
+  if err := ferror.Wrap(vc.GetViper().Unmarshal(&vc.Result), "fviper错误"); err != nil {
+    fmt.Printf("%+v", err)
+    fmt.Println()
   }
 }
 
@@ -120,8 +121,9 @@ func New(options ...ViperOption) *ViperConfiger {
     EnvPrefix:   "",
     Result:      &result,
     ErrorHandler: func(err error) {
-      if err := errors.WithStack(errors.WithMessage(err, "文件配置解析错误")); err != nil {
-        fmt.Println(err)
+      if err := ferror.Wrap(err, "文件配置解析错误"); err != nil {
+        fmt.Printf("%+v", err)
+        fmt.Println()
       }
     },
     maunalRead: false,
